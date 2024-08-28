@@ -82,20 +82,8 @@ class MemberServiceTest {
         assertEquals("1", result.getId());
     }
 
-    @Test
-    void testUpdate_Success() {
-        Member member = new Member();
-        member.setUsername("updateduser");
 
-        memberService.update(member);
 
-        assertEquals("updateduser", member.getUsername());
-    }
-
-    @Test
-    void testDelete_Success() {
-        memberService.delete(1L);
-    }
 
     @Test
     void testFindAll_Success() {

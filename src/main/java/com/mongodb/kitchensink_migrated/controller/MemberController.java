@@ -1,9 +1,10 @@
-// src/main/java/com/mongodb/kitchensink_migrated/controller/MemberController.java
 package com.mongodb.kitchensink_migrated.controller;
 
 import com.mongodb.kitchensink_migrated.entity.Member;
 import com.mongodb.kitchensink_migrated.exception.InvalidMemberDataException;
 import com.mongodb.kitchensink_migrated.service.MemberService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -18,6 +19,8 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:8081")
 public class MemberController {
 
+    private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
+
     private final MemberService memberService;
 
     @Autowired
@@ -28,55 +31,48 @@ public class MemberController {
     @PostMapping("/register")
     public ResponseEntity<String> registerMember(@Valid @RequestBody Member member) {
         try {
+            logger.info("Registering new member with email: {}", member.getEmail());
             memberService.register(member);
+            logger.info("Member registered successfully: {}", member.getEmail());
             return ResponseEntity.ok("Member registered successfully");
         } catch (InvalidMemberDataException e) {
+            logger.warn("Invalid member data: {}", e.getMessage());
             return ResponseEntity.badRequest().body(e.getMessage());
         } catch (Exception e) {
+            logger.error("Error registering member: {}", e.getMessage(), e);
             return ResponseEntity.status(500).body("Error registering member: " + e.getMessage());
         }
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Member> getMember(@PathVariable Long id) {
+        logger.info("Fetching member with ID: {}", id);
         Member member = memberService.findById(id);
+        if (member != null) {
+            logger.info("Member found: {}", member.getEmail());
+        } else {
+            logger.warn("Member not found with ID: {}", id);
+        }
         return ResponseEntity.ok(member);
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<String> updateMember(@PathVariable Long id, @Valid @RequestBody Member member) {
-        try {
-            memberService.update(member);
-            return ResponseEntity.ok("Member updated successfully");
-        } catch (InvalidMemberDataException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        } catch (Exception e) {
-            return ResponseEntity.status(500).body("Error updating member: " + e.getMessage());
-        }
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteMember(@PathVariable Long id) {
-        try {
-            memberService.delete(id);
-            return ResponseEntity.ok("Member deleted successfully");
-        } catch (Exception e) {
-            return ResponseEntity.status(500).body("Error deleting member: " + e.getMessage());
-        }
     }
 
     @GetMapping
     public ResponseEntity<List<Member>> listAllMembers() {
-
+        logger.info("Fetching all members");
         List<Member> members = memberService.findAll();
+        logger.info("Number of members found: {}", members.size());
         return ResponseEntity.ok(members);
     }
 
     @GetMapping("/email/{email}")
     public ResponseEntity<Member> getMemberByEmail(@PathVariable String email) {
+        logger.info("Fetching member with email: {}", email);
         Member member = memberService.findByEmail(email);
+        if (member != null) {
+            logger.info("Member found: {}", member.getEmail());
+        } else {
+            logger.warn("Member not found with email: {}", email);
+        }
         return ResponseEntity.ok(member);
     }
-
-
 }
