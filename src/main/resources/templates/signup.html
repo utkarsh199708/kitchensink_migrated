@@ -56,7 +56,7 @@
 
             if (response.ok) {
                 alert('Member registered successfully');
-                window.location.href = '/userlist'; // Redirect to user list page
+                window.location.href = '/login'; // Redirect to user list page
             } else {
                 const errorText = await response.text();
                 alert('Error registering member: ' + errorText);

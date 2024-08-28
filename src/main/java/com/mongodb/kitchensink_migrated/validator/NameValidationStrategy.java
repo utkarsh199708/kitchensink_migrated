@@ -11,10 +11,10 @@ public class NameValidationStrategy implements MemberValidationStrategy {
 
     @Override
     public void validate(Member member) throws InvalidMemberDataException {
-        if (member.getName() == null || member.getName().isEmpty()) {
+        if (member.getUsername() == null || member.getUsername().isEmpty()) {
             throw new InvalidMemberDataException("Name cannot be null or empty");
         }
-        if (!member.getName().matches(NAME_PATTERN)) {
+        if (!member.getUsername() .matches(NAME_PATTERN)) {
             throw new InvalidMemberDataException("Name must contain only alphabetic characters");
         }
     }

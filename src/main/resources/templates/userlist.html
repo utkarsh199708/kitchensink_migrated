@@ -28,7 +28,7 @@
             <tr>
                 <th>Name</th>
                 <th>Email</th>
-                <th>Actions</th>
+                <th>Phone Number</th>
             </tr>
             </thead>
             <tbody>
@@ -78,10 +78,10 @@
         table.clear();
         users.forEach(user => {
             table.row.add([
-                user.name,
+                user.username,
                 user.email,
-                `<button onclick="window.location.href='/members/update/${user.id}'">Update</button>
-                 <button onclick="window.location.href='/members/delete/${user.id}'">Delete</button>`
+                user.phoneNumber
+
             ]).draw();
         });
     }

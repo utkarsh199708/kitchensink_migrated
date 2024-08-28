@@ -39,7 +39,7 @@ public class MemberService {
             throw new DuplicateEmailException("Email already exists: " + member.getEmail());
         }
         member.setPassword(passwordEncoder.encode(member.getPassword()));
-        user.setUsername(member.getName());
+        user.setUsername(member.getUsername() );
         user.setPassword(member.getPassword());
 
 
@@ -49,7 +49,7 @@ public class MemberService {
     }
 
     public Member findById(Long id) {
-        return memberRepository.findById(id).orElse(null);
+        return memberRepository.findById(String.valueOf(id)).orElse(null);
     }
 
     public void update(Member member) {
@@ -58,7 +58,7 @@ public class MemberService {
     }
 
     public void delete(Long id) {
-        memberRepository.deleteById(id);
+        memberRepository.deleteById(String.valueOf(id));
     }
 
     public List<Member> findAll() {

@@ -1,29 +1,33 @@
 package com.mongodb.kitchensink_migrated.entity;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+
+import javax.validation.constraints.*;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 
-@Entity
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = "email"))
+@Document(collection = "members")
 public class Member implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id; // MongoDB uses String as the ID type
+
+    public @NotNull @Size(min = 1, max = 25) @Pattern(regexp = "[^0-9]*", message = "Must not contain numbers") String getUsername() {
+        return username;
+    }
+
+    public void setUsername(@NotNull @Size(min = 1, max = 25) @Pattern(regexp = "[^0-9]*", message = "Must not contain numbers") String username) {
+        this.username = username;
+    }
 
     @NotNull
     @Size(min = 1, max = 25)
     @Pattern(regexp = "[^0-9]*", message = "Must not contain numbers")
-    private String name;
-
-    public  String getPassword() {
-        return password;
-    }
-
-    public void setPassword (String password) {
-        this.password = password;
-    }
+    @Indexed(unique = true)
+    private String username;
 
     @NotNull
     @Size(min = 8, message = "Password must be at least 8 characters long")
@@ -32,30 +36,23 @@ public class Member implements Serializable {
     @NotNull
     @NotEmpty
     @Email
+    @Indexed(unique = true) // Replaces @UniqueConstraint in JPA
     private String email;
 
     @NotNull
     @Size(min = 10, max = 12)
     @Digits(fraction = 0, integer = 12)
-    @Column(name = "phone_number")
     private String phoneNumber;
 
     // Getters and Setters
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public String getEmail() {
         return email;
@@ -71,5 +68,13 @@ public class Member implements Serializable {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
