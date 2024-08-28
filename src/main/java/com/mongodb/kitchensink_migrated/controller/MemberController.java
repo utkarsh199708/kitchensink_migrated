@@ -15,6 +15,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/members")
 @Validated
+@CrossOrigin(origins = "http://localhost:8081")
 public class MemberController {
 
     private final MemberService memberService;
@@ -66,6 +67,7 @@ public class MemberController {
 
     @GetMapping
     public ResponseEntity<List<Member>> listAllMembers() {
+
         List<Member> members = memberService.findAll();
         return ResponseEntity.ok(members);
     }
@@ -75,4 +77,6 @@ public class MemberController {
         Member member = memberService.findByEmail(email);
         return ResponseEntity.ok(member);
     }
+
+
 }

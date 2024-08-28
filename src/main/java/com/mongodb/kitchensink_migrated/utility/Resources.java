@@ -11,13 +11,13 @@ import java.util.logging.Logger;
 @Configuration
 public class Resources {
 
-    @PersistenceContext
+ /*   @PersistenceContext
     private EntityManager em;
 
     @Bean
     public EntityManager entityManager() {
         return em;
-    }
+    }*/
 
     @Bean
     public Logger produceLog() {

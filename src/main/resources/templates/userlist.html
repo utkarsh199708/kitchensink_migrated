@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Management</title>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>User Management</h1>
+
+    <!-- List All Users -->
+    <div class="user-list">
+        <h2>All Users</h2>
+        <table id="user-table" class="display">
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- User list will be populated here -->
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+<script>
+    $(document).ready(function() {
+        console.log("Document ready");
+        $('#user-table').DataTable(); // Initialize DataTable
+        fetchUserList(); // Fetch and render the list of members
+    });
+
+    async function fetchUserList() {
+        console.log("Fetching user list");
+        const token = localStorage.getItem('token');
+        console.log("Token:", token);
+
+        const response = await fetch('/members', {
+            headers: {
+                'Authorization': localStorage.getItem('token'), // Ensure the token has the "Bearer " prefix
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        });
+        console.log(response)
+
+
+        if (response.ok) {
+            console.log("Response OK");
+            const userList = await response.json();
+            renderUserList(userList);
+        } else {
+            console.log("Error fetching user list:", response.statusText);
+            alert('Error fetching user list: ' + response.statusText);
+        }
+    }
+
+    function renderUserList(users) {
+        console.log("Rendering user list");
+        const table = $('#user-table').DataTable();
+        table.clear();
+        users.forEach(user => {
+            table.row.add([
+                user.name,
+                user.email,
+                `<button onclick="window.location.href='/members/update/${user.id}'">Update</button>
+                 <button onclick="window.location.href='/members/delete/${user.id}'">Delete</button>`
+            ]).draw();
+        });
+    }
+</script>
+</body>
+</html>

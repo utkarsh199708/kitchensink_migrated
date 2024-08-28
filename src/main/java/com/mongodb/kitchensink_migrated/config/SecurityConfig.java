@@ -1,4 +1,3 @@
-// src/main/java/com/mongodb/kitchensink_migrated/config/SecurityConfig.java
 package com.mongodb.kitchensink_migrated.config;
 
 import com.mongodb.kitchensink_migrated.security.JwtAuthenticationEntryPoint;
@@ -44,7 +43,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/authenticate", "/members/register").permitAll()
+                        .requestMatchers("/authenticate", "/members/register", "/login", "/signup","/userlist").permitAll()
                         .anyRequest().authenticated()
                 )
                 .exceptionHandling(exception -> exception.authenticationEntryPoint(jwtAuthenticationEntryPoint))
