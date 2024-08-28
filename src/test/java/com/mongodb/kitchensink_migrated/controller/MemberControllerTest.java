@@ -92,18 +92,5 @@ class MemberControllerTest {
                 .andExpect(status().isOk());
     }
 
-    @Test
-    void testGetMemberByEmail_Success() throws Exception {
-        Member member = new Member();
-        member.setId("1");
-        member.setUsername("testuser");
-        member.setEmail("testuser@example.com");
 
-        when(memberService.findByEmail("testuser@example.com")).thenReturn(member);
-
-        mockMvc.perform(get("/members/email/testuser@example.com"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.username").value("testuser"))
-                .andExpect(jsonPath("$.email").value("testuser@example.com"));
-    }
 }

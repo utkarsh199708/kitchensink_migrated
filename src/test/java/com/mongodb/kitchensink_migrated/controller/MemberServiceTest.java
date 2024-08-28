@@ -90,15 +90,5 @@ class MemberServiceTest {
         memberService.findAll();
     }
 
-    @Test
-    void testFindByEmail_Success() {
-        Member member = new Member();
-        member.setEmail("testuser@example.com");
 
-        when(memberRepository.findByEmail("testuser@example.com")).thenReturn(member);
-
-        Member result = memberService.findByEmail("testuser@example.com");
-        assertNotNull(result);
-        assertEquals("testuser@example.com", result.getEmail());
-    }
 }

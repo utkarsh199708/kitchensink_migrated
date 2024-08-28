@@ -64,8 +64,6 @@ public class MemberService {
         return memberRepository.findAllByOrderByUsernameAsc();
     }
 
-    public Member findByEmail(String email) {
-        logger.info("Finding member by email: {}", email);
-        return memberRepository.findByEmail(email);
-    }
+
+
 }

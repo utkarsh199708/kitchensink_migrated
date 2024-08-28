@@ -3,6 +3,7 @@ package com.mongodb.kitchensink_migrated.controller;
 import com.mongodb.kitchensink_migrated.entity.Member;
 import com.mongodb.kitchensink_migrated.exception.InvalidMemberDataException;
 import com.mongodb.kitchensink_migrated.service.MemberService;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import java.util.List;
 @RequestMapping("/members")
 @Validated
 @CrossOrigin(origins = "http://localhost:8081")
+
 public class MemberController {
 
     private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
@@ -27,6 +29,7 @@ public class MemberController {
     public MemberController(MemberService memberService) {
         this.memberService = memberService;
     }
+
 
     @PostMapping("/register")
     public ResponseEntity<String> registerMember(@Valid @RequestBody Member member) {
@@ -44,6 +47,7 @@ public class MemberController {
         }
     }
 
+
     @GetMapping("/{id}")
     public ResponseEntity<Member> getMember(@PathVariable Long id) {
         logger.info("Fetching member with ID: {}", id);
@@ -52,9 +56,11 @@ public class MemberController {
             logger.info("Member found: {}", member.getEmail());
         } else {
             logger.warn("Member not found with ID: {}", id);
+            return ResponseEntity.status(404).build();
         }
         return ResponseEntity.ok(member);
     }
+
 
     @GetMapping
     public ResponseEntity<List<Member>> listAllMembers() {
@@ -64,15 +70,5 @@ public class MemberController {
         return ResponseEntity.ok(members);
     }
 
-    @GetMapping("/email/{email}")
-    public ResponseEntity<Member> getMemberByEmail(@PathVariable String email) {
-        logger.info("Fetching member with email: {}", email);
-        Member member = memberService.findByEmail(email);
-        if (member != null) {
-            logger.info("Member found: {}", member.getEmail());
-        } else {
-            logger.warn("Member not found with email: {}", email);
-        }
-        return ResponseEntity.ok(member);
-    }
+
 }
