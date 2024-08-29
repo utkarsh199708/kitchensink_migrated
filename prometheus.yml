@@ -1,0 +1,11 @@
+# Global configuration
+global:
+  scrape_interval: 15s  # How often to scrape metrics
+  evaluation_interval: 15s  # How often to evaluate rules
+
+# Scrape configurations
+scrape_configs:
+  - job_name: 'kitchensink_migrated1'  # Updated job name for your application
+    metrics_path: '/actuator/prometheus'  # The endpoint where Spring Boot exposes metrics
+    static_configs:
+      - targets: ['localhost:8081']  # The address of your Spring Boot application
