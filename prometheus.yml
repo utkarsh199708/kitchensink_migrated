@@ -5,7 +5,7 @@ global:
 
 # Scrape configurations
 scrape_configs:
-  - job_name: 'kitchensink_migrated1'  # Updated job name for your application
-    metrics_path: '/actuator/prometheus'  # The endpoint where Spring Boot exposes metrics
+  - job_name: 'kitchensink_migrated1'
+    metrics_path: '/actuator/prometheus'
     static_configs:
-      - targets: ['localhost:8081']  # The address of your Spring Boot application
+      - targets: ['fervernt_ritchie:8081']

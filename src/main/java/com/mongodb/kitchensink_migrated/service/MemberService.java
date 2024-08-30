@@ -9,6 +9,7 @@ import com.mongodb.kitchensink_migrated.validator.MemberValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -54,10 +55,14 @@ public class MemberService {
         }
     }
 
+    @Cacheable(value = "usersByName", key = "#id")
+
     public Member findById(Long id) {
         logger.info("Finding member by ID: {}", id);
         return memberRepository.findById(String.valueOf(id)).orElse(null);
     }
+
+    @Cacheable(value = "users", key = "#allUsers")
 
     public List<Member> findAll() {
         logger.info("Fetching all members");
