@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface MemberRepository extends MongoRepository<Member,String> {
+public interface MemberRepository extends MongoRepository<Member,Integer> {
     Member findByEmail(String email);
    List<Member> findAllByOrderByUsernameAsc();
 

@@ -49,7 +49,7 @@ public class MemberController {
 
 
     @GetMapping("/{id}")
-    public ResponseEntity<Member> getMember(@PathVariable Long id) {
+    public ResponseEntity<Member> getMember(@PathVariable Integer id) {
         logger.info("Fetching member with ID: {}", id);
         Member member = memberService.findById(id);
         if (member != null) {

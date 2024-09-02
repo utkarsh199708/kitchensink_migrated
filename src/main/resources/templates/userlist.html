@@ -26,6 +26,7 @@
         <table id="user-table" class="display">
             <thead>
             <tr>
+                <th>User Id</th>
                 <th>Name</th>
                 <th>Email</th>
                 <th>Phone Number</th>
@@ -78,6 +79,7 @@
         table.clear();
         users.forEach(user => {
             table.row.add([
+                `<a href="/details/${user.id}">${user.id}</a>`,
                 user.username,
                 user.email,
                 user.phoneNumber

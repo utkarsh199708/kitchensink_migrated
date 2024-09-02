@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Member Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Member Details</h1>
+    <div id="member-details">
+        <!-- Member details will be populated here -->
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        const memberId = window.location.pathname.split('/').pop();
+        fetchMemberDetails(memberId);
+    });
+
+    async function fetchMemberDetails(memberId) {
+        const response = await fetch(`/members/${memberId}`, {
+            headers: {
+                'Authorization': localStorage.getItem('token'),
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (response.ok) {
+            const member = await response.json();
+            renderMemberDetails(member);
+        } else {
+            alert('Error fetching member details: ' + response.statusText);
+        }
+    }
+
+    function renderMemberDetails(member) {
+        const detailsDiv = $('#member-details');
+        detailsDiv.html(`
+            <p><strong>ID:</strong> ${member.id}</p>
+            <p><strong>Username:</strong> ${member.username}</p>
+            <p><strong>Email:</strong> ${member.email}</p>
+            <p><strong>Phone Number:</strong> ${member.phoneNumber}</p>
+        `);
+    }
+</script>
+</body>
+</html>

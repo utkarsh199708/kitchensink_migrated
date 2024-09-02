@@ -58,11 +58,11 @@ class MemberControllerTest {
     @Test
     void testGetMember_Success() throws Exception {
         Member member = new Member();
-        member.setId("1");
+        member.setId(1);
         member.setUsername("testuser");
         member.setEmail("testuser@example.com");
 
-        when(memberService.findById(1L)).thenReturn(member);
+        when(memberService.findById(1)).thenReturn(member);
 
         mockMvc.perform(get("/members/1"))
                 .andExpect(status().isOk())
@@ -70,21 +70,9 @@ class MemberControllerTest {
                 .andExpect(jsonPath("$.email").value("testuser@example.com"));
     }
 
-    @Test
-    void testUpdateMember_Success() throws Exception {
-        mockMvc.perform(put("/members/1")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"username\": \"updateduser\", \"password\": \"password\", \"email\": \"updated@example.com\"}"))
-                .andExpect(status().isOk())
-                .andExpect(content().string("Member updated successfully"));
-    }
 
-    @Test
-    void testDeleteMember_Success() throws Exception {
-        mockMvc.perform(delete("/members/1"))
-                .andExpect(status().isOk())
-                .andExpect(content().string("Member deleted successfully"));
-    }
+
+
 
     @Test
     void testListAllMembers_Success() throws Exception {

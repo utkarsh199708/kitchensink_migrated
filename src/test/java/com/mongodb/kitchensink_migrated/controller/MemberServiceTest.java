@@ -74,10 +74,10 @@ class MemberServiceTest {
     @Test
     void testFindById_Success() {
         Member member = new Member();
-        member.setId("1");
-        when(memberRepository.findById("1")).thenReturn(Optional.of(member));
+        member.setId(1);
+        when(memberRepository.findById(1)).thenReturn(Optional.of(member));
 
-        Member result = memberService.findById(1L);
+        Member result = memberService.findById(1);
         assertNotNull(result);
         assertEquals("1", result.getId());
     }

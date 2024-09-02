@@ -24,13 +24,15 @@ public class MemberService {
     private final MemberValidator memberValidator;
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
+    private final SequenceGeneratorService sequenceGeneratorService;
 
     @Autowired
-    public MemberService(MemberRepository memberRepository, MemberValidator memberValidator, PasswordEncoder passwordEncoder, UserRepository userRepository) {
+    public MemberService(MemberRepository memberRepository, MemberValidator memberValidator, PasswordEncoder passwordEncoder, UserRepository userRepository, SequenceGeneratorService sequenceGeneratorService) {
         this.memberRepository = memberRepository;
         this.memberValidator = memberValidator;
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
+        this.sequenceGeneratorService = sequenceGeneratorService;
     }
 
     public void register(Member member) {
@@ -41,8 +43,10 @@ public class MemberService {
                 logger.warn("Email already exists: {}", member.getEmail());
                 throw new DuplicateEmailException("Email already exists: " + member.getEmail());
             }
+            member.setId(sequenceGeneratorService.generateSequence(Member.SEQUENCE_NAME));
             member.setPassword(passwordEncoder.encode(member.getPassword()));
             User user = new User();
+            user.setId(member.getId());
             user.setUsername(member.getUsername());
             user.setPassword(member.getPassword());
 
@@ -57,9 +61,9 @@ public class MemberService {
 
     @Cacheable(value = "usersByName", key = "#id")
 
-    public Member findById(Long id) {
+    public Member findById(Integer id) {
         logger.info("Finding member by ID: {}", id);
-        return memberRepository.findById(String.valueOf(id)).orElse(null);
+        return memberRepository.findById(id).orElse(null);
     }
 
     @Cacheable(value = "users", key = "#allUsers")

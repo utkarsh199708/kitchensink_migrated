@@ -11,9 +11,10 @@ import java.io.Serializable;
 
 @Document(collection = "members")
 public class Member implements Serializable {
+    public static final String SEQUENCE_NAME = "members_sequence";
 
     @Id
-    private String id; // MongoDB uses String as the ID type
+    private Integer id;
 
     public @NotNull @Size(min = 1, max = 25) @Pattern(regexp = "[^0-9]*", message = "Must not contain numbers") String getUsername() {
         return username;
@@ -45,11 +46,11 @@ public class Member implements Serializable {
     private String phoneNumber;
 
     // Getters and Setters
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

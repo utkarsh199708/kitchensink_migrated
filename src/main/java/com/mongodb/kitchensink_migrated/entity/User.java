@@ -8,7 +8,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class User {
 
     @Id
-    private String id; // MongoDB uses String as the ID type
+    private Integer id;
 
     @Indexed(unique = true)
     private String username;
@@ -16,11 +16,11 @@ public class User {
     private String password;
 
     // Getters and Setters
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

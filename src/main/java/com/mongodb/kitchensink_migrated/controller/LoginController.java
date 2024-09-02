@@ -15,7 +15,7 @@ public class LoginController {
     @GetMapping("/login")
     public String showLoginPage() {
         logger.info("Accessing login page");
-        return "login"; // This should match the name of your HTML file without the .html extension
+        return "login";
     }
 
     @GetMapping("/signup")
@@ -28,5 +28,11 @@ public class LoginController {
     public String showUserList() {
         logger.info("Accessing user list page");
         return "userlist";
+    }
+
+    @GetMapping("/details/{id}")
+    public String getMemberDetailsPage() {
+        return "memberdetails";
+
     }
 }
