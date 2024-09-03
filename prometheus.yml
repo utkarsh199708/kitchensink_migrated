@@ -1,11 +1,7 @@
-# Global configuration
 global:
-  scrape_interval: 15s  # How often to scrape metrics
-  evaluation_interval: 15s  # How often to evaluate rules
+  scrape_interval: 15s
 
-# Scrape configurations
 scrape_configs:
-  - job_name: 'kitchensink_migrated1'
-    metrics_path: '/actuator/prometheus'
+  - job_name: 'prometheus'
     static_configs:
-      - targets: ['fervernt_ritchie:8081']
+      - targets: ['localhost:9090']

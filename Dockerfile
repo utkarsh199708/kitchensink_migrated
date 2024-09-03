@@ -16,6 +16,7 @@ RUN apt-get update && \
 RUN mvn clean package -DskipTests
 
 # Expose the port the application runs on
+
 EXPOSE 8081
 
 # Run the application

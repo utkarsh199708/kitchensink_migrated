@@ -1,5 +1,6 @@
 package com.mongodb.kitchensink_migrated.entity;
 
+import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -8,7 +9,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import javax.validation.constraints.*;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
-
+@Data
 @Document(collection = "members")
 public class Member implements Serializable {
     public static final String SEQUENCE_NAME = "members_sequence";
@@ -45,37 +46,5 @@ public class Member implements Serializable {
     @Digits(fraction = 0, integer = 12)
     private String phoneNumber;
 
-    // Getters and Setters
-    public Integer getId() {
-        return id;
-    }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 }

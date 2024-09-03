@@ -43,7 +43,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/authenticate", "/members/register", "/login", "/signup","/userlist","/actuator/prometheus","/details/**").permitAll()
+                        .requestMatchers("/authenticate", "/members/register", "/login", "/signup","/userlist","/actuator/prometheus","/details/**","/metrics").permitAll()
                         .anyRequest().authenticated()
                 )
                 .exceptionHandling(exception -> exception.authenticationEntryPoint(jwtAuthenticationEntryPoint))
